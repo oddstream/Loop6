@@ -7,7 +7,7 @@ const Q = 100;
 const Q75 = Math.floor(Q*0.75);
 const Q50 = Math.floor(Q*0.5);
 const Q25 = Math.floor(Q*0.25);
-const Q20 = Math.floor(Q/5);        const strQ20 = Q20.toString(); 
+const Q20 = Math.floor(Q/5);        const strQ20 = Q20.toString();
 const Q10 = Q/10;                   const strQ10 = Q10.toString();
 
 const innerRadius = Q50 * 0.86603;
@@ -35,7 +35,7 @@ const PLACE_COIN_CHANCE = 0.33;
 
 const isOdd = (x) => { return (x&1)==1; };
 
-// distance from centre to midpoint of diagonal edge = Math.sqrt(3)/2*Q50 
+// distance from centre to midpoint of diagonal edge = Math.sqrt(3)/2*Q50
 const cellData = [
     { bit: NORTH,       oppBit: SOUTH,     link: 'n',      c2eX: 0,        c2eY: -Q/2,  tri:[0,0,-Q/4,-Q/2, Q/4,-Q/2]  },
     { bit: NORTHEAST,   oppBit: SOUTHWEST, link: 'ne',     c2eX: Q*3/8,    c2eY: -Q/4,  tri:[0,0, Q/4,-Q/2, Q/2,0]     },
@@ -46,11 +46,18 @@ const cellData = [
 ];
 
 const prebuilt = [
-    '{"type":"6","numX":"7","numY":"7","coins":[8,0,20,20,0,0,16,0,10,42,40,20,10,0,9,0,0,0,10,40,20,0,9,9,9,0,11,40,5,16,0,0,13,17,0,34,5,21,17,34,5,17,0,0,34,34,1,0,34]}',
-    '{"type":"6","numX":"7","numY":"7","coins":[8,0,20,20,0,0,20,0,10,42,40,20,10,40,9,0,0,0,14,48,20,0,5,21,17,34,15,57,5,16,34,34,9,0,34,34,0,0,0,0,5,17,0,0,0,0,1,0,34]}',
-    '{"type":"6","numX":"5","numY":"10","coins":[12,20,20,28,28,50,34,34,34,56,11,20,0,9,3,10,40,20,20,9,9,0,10,43,36,5,21,0,0,41,9,34,45,17,0,24,0,34,0,25,7,20,21,20,22,35,34,34,34,33]}',
-    '{"type":"6","numX":"3","numY":"6","coins":[12,28,28,62,62,56,15,63,63,63,63,57,7,55,55,35,35,33]}',
-    '{"type":"6","numX":"3","numY":"6","coins":[12,20,20,34,34,40,9,0,0,0,0,9,5,20,20,34,34,33]}'
+    // json-server seems to require an id
+    '{"id":"0","type":"6","numX":"7","numY":"7","coins":[8,0,20,20,0,0,16,0,10,42,40,20,10,0,9,0,0,0,10,40,20,0,9,9,9,0,11,40,5,16,0,0,13,17,0,34,5,21,17,34,5,17,0,0,34,34,1,0,34]}',
+    '{"id":"1","type":"6","numX":"7","numY":"7","coins":[8,0,20,20,0,0,20,0,10,42,40,20,10,40,9,0,0,0,14,48,20,0,5,21,17,34,15,57,5,16,34,34,9,0,34,34,0,0,0,0,5,17,0,0,0,0,1,0,34]}',
+    '{"id":"2","type":"6","numX":"5","numY":"10","coins":[12,20,20,28,28,50,34,34,34,56,11,20,0,9,3,10,40,20,20,9,9,0,10,43,36,5,21,0,0,41,9,34,45,17,0,24,0,34,0,25,7,20,21,20,22,35,34,34,34,33]}',
+    '{"id":"3","type":"6","numX":"3","numY":"6","coins":[12,28,28,62,62,56,15,63,63,63,63,57,7,55,55,35,35,33]}',
+    '{"id":"4","type":"6","numX":"3","numY":"6","coins":[12,20,20,34,34,40,9,0,0,0,0,9,5,20,20,34,34,33]}',
+    '{"id":"5","type":"6","numX":5,"numY":16,"coins":[8,0,4,16,20,24,0,42,10,40,3,0,20,0,0,9,18,41,5,17,0,10,16,4,42,1,10,9,40,0,0,9,0,0,9,8,5,21,17,24,12,9,34,34,3,33,0,4,16,9,9,21,0,54,8,10,40,2,32,1,1,0,0,0,9,5,17,4,16,24,0,34,0,54,3,0,0,2,32,1]}',
+    '{"id":"6","type":"6","numX":3,"numY":14,"coins":[12,20,20,34,34,40,9,20,24,10,34,9,9,0,9,5,0,9,5,40,17,40,10,17,0,9,10,9,17,0,0,3,17,5,18,0,0,34,0,0,0,0]}',
+    '{"id":"7","type":"6","numX":3,"numY":14,"coins":[8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,1,1,1,1]}',
+    '{"id":"8","type":"6","numX":3,"numY":14,"coins":[4,20,20,34,34,32,4,20,20,34,34,32,4,20,20,34,34,32,4,20,20,34,34,32,4,20,20,34,34,32,4,20,20,34,34,32,4,20,20,34,34,32]}',
+    '{"id":"9","type":"6","numX":3,"numY":14,"coins":[0,20,28,26,34,32,2,20,29,27,34,32,2,20,29,27,34,32,2,20,29,27,34,32,2,20,29,27,34,32,2,20,29,27,34,32,2,20,21,3,34,32]}',
+    '{"id":"10","type":"6","numX":3,"numY":14,"coins":[0,0,0,0,0,0,0,0,0,0,8,0,0,4,16,0,63,0,0,2,32,0,1,0,0,8,0,4,16,0,0,63,0,2,32,0,0,1,0,0,0,0]}'
 ];
 
 class Cell
@@ -61,29 +68,20 @@ class Cell
         this.x = x;
         this.y = y;
         this.centre = centre;
-        this.n  = this.ne = this.se = this.s = this.sw = this.nw = null;        
+        this.n  = this.ne = this.se = this.s = this.sw = this.nw = null;
         this.coins = this.originalCoins = 0;
         this.g = null;
     }
 
-    hammingWeight()
-    {
-        /*        
-        return this.coins.toString(2).split('1').length-1;
-        return this.coins.toString(2).match(/1/g).length;
-        https://stackoverflow.com/questions/109023/how-to-count-the-number-of-set-bits-in-a-32-bit-integer
-        */
-        let v = this.coins;
-        v = v - ((v >> 1) & 0x55555555);                // put count of each 2 bits into those 2 bits
-        v = (v & 0x33333333) + ((v >> 2) & 0x33333333); // put count of each 4 bits into those 4 bits  
-        return ((v + (v >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
-    }
-
+    /**
+     * Fifth attempt at animating the rotation of a cell when the user clicks on it
+     * @returns {Promise} which completes when the animation is finished
+     */
     rotate5()
     {
         const thisCell = this;
 
-        return new Promise(function(resolve, reject)
+        return new Promise(function(resolve/*, reject*/)
         {
             let angle = 10;
 
@@ -202,6 +200,7 @@ class Cell
 
     setGraphic()
     {
+        // document > svg > g|path > path|circle|line
         if ( this.g )
         {
             this.g.removeAttributeNS(null, 'transform');
@@ -213,15 +212,7 @@ class Cell
             this.g = document.createElementNS(SVG_NAMESPACE, 'g');
             this.svg.appendChild(this.g);
         }
-        // document > svg > g|path > path|circle|line
-        /***        
-        const gNew = document.createElementNS(SVG_NAMESPACE, 'g');
-        if ( this.g )
-            this.svg.replaceChild(gNew, this.g);
-        else
-            this.svg.appendChild(gNew);
-        this.g = gNew;
-        ***/
+
         if ( DEBUGGING )
         {
             const eleSvgText = document.createElementNS(SVG_NAMESPACE, 'text');
@@ -235,7 +226,7 @@ class Cell
         if ( 0 == this.coins )
             return;
 
-        const bitCount = this.hammingWeight();
+        const bitCount = Util.hammingWeight(this.coins);
         if ( 1 == bitCount )
         {
             const eleLine = document.createElementNS(SVG_NAMESPACE, 'line');
@@ -279,7 +270,7 @@ class Cell
             }
             if ( bitCount > 2 )  // close the path for better aesthetics
                 path = path.concat(` Q${this.centre.x},${this.centre.y} ${this.centre.x + cdFirst.c2eX},${this.centre.y + cdFirst.c2eY}`);
-    
+
             const ele = document.createElementNS(SVG_NAMESPACE, 'path');
             ele.setAttributeNS(null, 'd', path);
             this.g.appendChild(ele);
@@ -294,7 +285,7 @@ class Honeycomb
         this.numX = numX;
         this.numY = numY;
         this.cells = new Array();  // array of cells
-    
+
         const eleWrapper = document.createElement('div');
         eleWrapper.style.backgroundColor = BACKGROUND_COLOR;
 
@@ -305,7 +296,7 @@ class Honeycomb
         this.svg.setAttributeNS(null, 'stroke', INPROGRESS_COLOR);
         this.svg.setAttributeNS(null, 'stroke-width', strQ10);
         this.svg.setAttributeNS(null, 'fill', 'none');
-    
+
         for ( let y=0; y<numY; y++ )
         {
             for ( let x=0; x<numX; x++)
@@ -313,7 +304,7 @@ class Honeycomb
                 let centre = isOdd(y)
                 ? { x:xEvenOffset+(x*xCentreDistance), y:yOffset+(y*yCentreDistance) }
                 : { x:xOddOffset+(x*xCentreDistance), y:yOffset+(y*yCentreDistance) };
-    
+
                 const c = new Cell(this.svg, x, y, centre);
                 this.cells.push(c);
 
@@ -327,7 +318,7 @@ class Honeycomb
                 }
             }
         }
-        
+
         this.svg.addEventListener('click', this);     // <g> and <path> &c don't accept listeners
 
         eleWrapper.appendChild(this.svg);
@@ -412,45 +403,16 @@ class Honeycomb
         return this;
     }
 
-    // x,y is the point to test
-    // cx, cy is circle center, and radius is circle radius
-    pointInCircle(x, y, cx, cy, radius)
-    {
-        const distanceSquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
-        return distanceSquared <= radius * radius;
-    }
-
-    pointInTriangle(px,py,ax,ay,bx,by,cx,cy)
-    {   // http://www.blackpawn.com/texts/pointinpoly/default.html and https://koozdra.wordpress.com/2012/06/27/javascript-is-point-in-triangle/
-        
-        const v0 = [cx-ax,cy-ay];
-        const v1 = [bx-ax,by-ay];
-        const v2 = [px-ax,py-ay];
-        
-        const dot00 = (v0[0]*v0[0]) + (v0[1]*v0[1]);
-        const dot01 = (v0[0]*v1[0]) + (v0[1]*v1[1]);
-        const dot02 = (v0[0]*v2[0]) + (v0[1]*v2[1]);
-        const dot11 = (v1[0]*v1[0]) + (v1[1]*v1[1]);
-        const dot12 = (v1[0]*v2[0]) + (v1[1]*v2[1]);
-        
-        const invDenom = 1/ (dot00 * dot11 - dot01 * dot01);
-        
-        const u = (dot11 * dot02 - dot01 * dot12) * invDenom;
-        const v = (dot00 * dot12 - dot01 * dot02) * invDenom;
-        
-        return ((u >= 0) && (v >= 0) && (u + v < 1));
-    }
-
     toggle(x, y)
     {
         for ( const c of this.cells )
-            if ( this.pointInCircle(x, y, c.centre.x, c.centre.y, innerRadius) )
+            if ( Util.pointInCircle(x, y, c.centre.x, c.centre.y, innerRadius) )
             {
                 for ( let cd of cellData )
                 {
                     // cellData.tri is array of [x,y, x,y, x,y] x=even y=odd
                     const arrAdjusted = cd.tri.map((ele,idx) => ele + (isOdd(idx) ? c.centre.y : c.centre.x));
-                    if ( this.pointInTriangle(x, y, ...arrAdjusted) )
+                    if ( Util.pointInTriangle(x, y, ...arrAdjusted) )
                     {
                         c.toggleCoin.call(c, cd);
                         return;
@@ -474,14 +436,14 @@ class Honeycomb
             window.location.reload(false);
             return;
         }
-        
+
         for ( const c of this.cells )
-            if ( this.pointInCircle(event.offsetX, event.offsetY, c.centre.x, c.centre.y, innerRadius) )
+            if ( Util.pointInCircle(event.offsetX, event.offsetY, c.centre.x, c.centre.y, innerRadius) )
             {
                 c.rotate5()
-                .then( () => { 
+                .then( () => {
                     c.shiftBits();
-                    c.setGraphic(); 
+                    c.setGraphic();
                     if ( this.isComplete() )
                         this.svg.setAttributeNS(null, 'stroke', COMPLETED_COLOR);
                 });
@@ -495,7 +457,7 @@ class Honeycomb
         {
             for ( const c of this.cells )
                 c.coins = c.originalCoins = 0;
-            this.setGraphics();            
+            this.setGraphics();
         }
 
         if ( event.code == 'KeyJ' )
@@ -507,26 +469,29 @@ class Honeycomb
 
         if ( event.code == 'KeyS' )
         {
+            var arrCoins = Array.from(this.cells, c => c.coins);
+
             var obj = {
+                id: Util.BSD16(arrCoins, this.numX + (this.numY * 256)),
                 type: '6',
                 numX: this.numX,
                 numY: this.numY,
-                coins: Array.from(this.cells, c => c.coins)
+                coins: arrCoins
             };
             console.log(JSON.stringify(obj));
+            Util.saveLoop(obj);
         }
 
         if ( event.code == 'KeyU')
         {
             for ( const c of this.cells )
                 c.coins = c.originalCoins;
-            this.setGraphics();            
+            this.setGraphics();
         }
     }
-
 }
 
-function main() 
+function main()
 {
     var urlParams = {},
         match,
@@ -543,11 +508,17 @@ function main()
     let numX = urlParams.x ? urlParams.x : Math.max(Math.floor(window.innerWidth / Q * 0.66), 3);
     let numY = urlParams.y ? urlParams.y : Math.max(Math.floor(window.innerHeight / Q * 1.75), 3);
 
-    if ( urlParams.load && prebuilt[urlParams.load] )
+    if ( urlParams.load )
     {
-        const objLoad = JSON.parse(prebuilt[urlParams.load]);
-        const h = new Honeycomb(objLoad.numX, objLoad.numY);
-        h.linkCells().placeCoins(objLoad.coins).jumbleCoins().setGraphics();
+        fetch('http://localhost:3000/loops?type=6') // returns a Promise that resolves to a Response object
+        .then( resolve => resolve.json(), reject => console.error(reject) )
+        .then( arrLoops =>
+        {
+            const objLoad = arrLoops[Math.floor(Math.random()*arrLoops.length)];
+            const h = new Honeycomb(objLoad.numX, objLoad.numY);
+            h.linkCells().placeCoins(objLoad.coins).jumbleCoins().setGraphics();
+            }, reject => console.error(reject))
+        .catch(err => console.error(err));
     }
     else
     {
